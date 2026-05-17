@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Send, Loader2, AlertCircle } from 'lucide-react';
 
 interface AssessmentFormProps {
@@ -10,13 +10,10 @@ interface AssessmentFormProps {
 
 const AssessmentForm: React.FC<AssessmentFormProps> = ({ onAnalyze, isLoading }) => {
   const [text, setText] = useState('');
-  const [wordCount, setWordCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const count = text.trim().split(/\s+/).filter(Boolean).length;
-    setWordCount(count);
-    if (count >= 50) setError(null);
+  const wordCount = useMemo(() => {
+    return text.trim().split(/\s+/).filter(Boolean).length;
   }, [text]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,6 +22,7 @@ const AssessmentForm: React.FC<AssessmentFormProps> = ({ onAnalyze, isLoading })
       setError('Please enter at least 50 words to receive an accurate assessment.');
       return;
     }
+    setError(null);
     onAnalyze(text);
   };
 
@@ -33,7 +31,10 @@ const AssessmentForm: React.FC<AssessmentFormProps> = ({ onAnalyze, isLoading })
       <div className="relative">
         <textarea
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            setText(e.target.value);
+            if (error) setError(null);
+          }}
           placeholder="Paste your essay or paragraph here (minimum 50 words)..."
           className="w-full min-h-[300px] p-6 text-gray-700 bg-white border-2 border-gray-100 rounded-2xl focus:border-secondary focus:ring-0 outline-none transition-all resize-y shadow-sm"
           disabled={isLoading}

@@ -7,9 +7,33 @@ import ResultsDashboard from "@/components/assessment/ResultsDashboard";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
+interface AnalysisData {
+  overallLevel: string;
+  overallScore: number;
+  metrics: {
+    reading: number;
+    listening: number;
+    writing: number;
+    speaking: number;
+  };
+  vocabulary: {
+    variety: string;
+    complexity: string;
+  };
+  grammar: {
+    errorCount: number;
+    errors: Array<{ original: string; suggestion: string; type: string }>;
+  };
+  feedback: {
+    strengths: string[];
+    improvements: string[];
+  };
+  wordCount: number;
+}
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
-  const [analysisData, setAnalysisData] = useState<any>(null);
+  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
 
   const handleAnalyze = async (text: string) => {
     setIsLoading(true);
@@ -48,8 +72,10 @@ export default function Home() {
     if (!element) return;
 
     // Hide export buttons and back button during export
-    const buttons = element.querySelectorAll('.no-export');
-    buttons.forEach((btn: any) => btn.style.display = 'none');
+    const buttons = element.querySelectorAll<HTMLElement>('.no-export');
+    buttons.forEach((btn) => {
+      btn.style.display = 'none';
+    });
 
     try {
       const canvas = await html2canvas(element, {
@@ -68,7 +94,9 @@ export default function Home() {
     } catch (error) {
       console.error('PDF export error:', error);
     } finally {
-      buttons.forEach((btn: any) => btn.style.display = '');
+      buttons.forEach((btn) => {
+        btn.style.display = '';
+      });
     }
   };
 

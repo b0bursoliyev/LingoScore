@@ -32,7 +32,6 @@ export async function POST(request: Request) {
 
     // Mock logic for analysis
     // In a real application, this would call the Google Gemini API or OpenAI API
-    const sentenceCount = text.split(/[.!?]+/).filter(Boolean).length;
     const avgWordLength = text.length / wordCount;
 
     // Simulate CEFR level based on complexity
