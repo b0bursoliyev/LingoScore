@@ -13,6 +13,23 @@ export async function POST(request: Request) {
       );
     }
 
+    // --- AI ANALYSIS SETUP ---
+    // To use Google Gemini API, uncomment the following block and add GOOGLE_API_KEY to your .env
+    /*
+    const { GoogleGenerativeAI } = require("@google/generative-ai");
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const prompt = `Analyze this English writing sample for CEFR level (A1-C2).
+    Provide scores for reading, listening, writing, and speaking based on the text complexity.
+    Identify grammar errors and suggest improvements. Return JSON format matching the mock response below.
+    Text: ${text}`;
+
+    // const result = await model.generateContent(prompt);
+    // const response = await result.response;
+    // const analysis = JSON.parse(response.text());
+    */
+
     // Mock logic for analysis
     // In a real application, this would call the Google Gemini API or OpenAI API
     const sentenceCount = text.split(/[.!?]+/).filter(Boolean).length;
