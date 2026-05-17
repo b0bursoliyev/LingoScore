@@ -4,13 +4,15 @@
   --color-deep-sea: #002B4E;
   --color-deep-sea-light: #005A9C;
   --color-deep-sea-dark: #001A2F;
+  --color-sea-accent: #00A3FF;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #002B4E;
+  --background: #f8fafc;
+  --foreground: #0f172a;
   --primary: #002B4E;
   --secondary: #005A9C;
+  --accent: #00A3FF;
 }
 
 @theme inline {
@@ -18,6 +20,7 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
 }
 
 body {
@@ -26,6 +29,23 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+.bg-grid-pattern {
+  background-image: radial-gradient(circle at 1px 1px, rgba(0, 43, 78, 0.05) 1px, transparent 0);
+  background-size: 40px 40px;
+}
+
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #002B4E 0%, #005A9C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .circular-gauge {
-  transition: stroke-dashoffset 0.5s ease-out;
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
