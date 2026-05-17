@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --color-deep-sea: #002B4E;
+  --color-deep-sea-light: #005A9C;
+  --color-deep-sea-dark: #001A2F;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #002B4E;
+  --primary: #002B4E;
+  --secondary: #005A9C;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.circular-gauge {
+  transition: stroke-dashoffset 0.5s ease-out;
+}
