@@ -35,7 +35,7 @@ LingoScore is a modern, full-stack web application designed to help English lear
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/lingoscore.git
+   git clone git@github.com:b0bursoliyev/LingoScore.git
    cd lingoscore
    ```
 
