@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CheckCircle2, XCircle, Award, Download, ArrowLeft, Info, ExternalLink } from 'lucide-react';
+import { CheckCircle2, XCircle, Award, Download, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface AnalysisData {
@@ -67,11 +67,11 @@ const Gauge = ({ value, label, size = 130 }: { value: number; label: string; siz
             className="text-accent circular-gauge"
           />
         </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-2">
           <span className="text-2xl font-black text-primary group-hover:scale-110 transition-transform">{value}%</span>
         </div>
       </div>
-      <span className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">{label}</span>
+      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center h-8 flex items-center">{label}</span>
     </div>
   );
 };
@@ -100,7 +100,7 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ data, onReset, onEx
               Proficiency Report
               <Award className="w-10 h-10 text-accent" />
             </h2>
-            <p className="text-white/60 font-medium">Detailed AI analysis of your English writing performance.</p>
+            <p className="text-white/60 font-medium">Detailed assessment across all four language skills.</p>
           </div>
           <button
             onClick={onExport}
@@ -132,7 +132,7 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ data, onReset, onEx
             </div>
             <div className="text-sm font-bold text-slate-500 mb-6">Mastery: {data.overallScore}%</div>
             <p className="text-slate-600 leading-relaxed font-medium">
-              Your writing exhibits strong {data.overallLevel} capabilities with notable precision in structure.
+              Your performance demonstrates characteristics of a <strong>{data.overallLevel}</strong> English user.
             </p>
           </div>
 
@@ -206,18 +206,6 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ data, onReset, onEx
             <div className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Grammar Error Rate</div>
             <div className="text-2xl font-black text-primary">{((data.grammar.errorCount / data.wordCount) * 100).toFixed(1)}%</div>
           </div>
-        </div>
-
-        {/* Next Steps CTA */}
-        <div className="mt-12 flex items-center justify-between p-6 bg-primary/5 rounded-2xl border border-primary/10">
-          <div className="flex items-center gap-3">
-            <Info className="w-5 h-5 text-primary" />
-            <p className="text-sm font-bold text-primary">Want to reach the next level faster?</p>
-          </div>
-          <button className="flex items-center gap-2 text-primary font-black text-sm hover:underline">
-            Unlock Personalized Study Plan
-            <ExternalLink className="w-4 h-4" />
-          </button>
         </div>
       </div>
     </motion.div>

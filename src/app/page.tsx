@@ -1,125 +1,29 @@
-'use client';
-
-import React, { useState } from 'react';
 import Hero from "@/components/home/Hero";
-import AssessmentForm from "@/components/assessment/AssessmentForm";
-import ResultsDashboard from "@/components/assessment/ResultsDashboard";
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-
-interface AnalysisData {
-  overallLevel: string;
-  overallScore: number;
-  metrics: {
-    reading: number;
-    listening: number;
-    writing: number;
-    speaking: number;
-  };
-  vocabulary: {
-    variety: string;
-    complexity: string;
-  };
-  grammar: {
-    errorCount: number;
-    errors: Array<{ original: string; suggestion: string; type: string }>;
-  };
-  feedback: {
-    strengths: string[];
-    improvements: string[];
-  };
-  wordCount: number;
-}
+import Link from 'next/link';
+import { ArrowRight, GraduationCap } from 'lucide-react';
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
-
-  const handleAnalyze = async (text: string) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setAnalysisData(data);
-        // Scroll to results
-        setTimeout(() => {
-          document.getElementById('results-report')?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        alert(data.error || 'Something went wrong');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to analyze text.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleReset = () => {
-    setAnalysisData(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleExport = async () => {
-    const element = document.getElementById('results-report');
-    if (!element) return;
-
-    // Hide export buttons and back button during export
-    const buttons = element.querySelectorAll<HTMLElement>('.no-export');
-    buttons.forEach((btn) => {
-      btn.style.display = 'none';
-    });
-
-    try {
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
-
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save('LingoScore-Report.pdf');
-    } catch (error) {
-      console.error('PDF export error:', error);
-    } finally {
-      buttons.forEach((btn) => {
-        btn.style.display = '';
-      });
-    }
-  };
-
   return (
     <div className="bg-white">
-      {!analysisData && <Hero />}
+      <Hero />
 
-      <div id="assess" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="max-w-4xl mx-auto">
-          {!analysisData ? (
-            <>
-              <h2 className="text-3xl font-bold text-primary mb-8 text-center">English Proficiency Assessment</h2>
-              <div className="bg-white rounded-3xl p-1 shadow-2xl shadow-blue-100">
-                <AssessmentForm onAnalyze={handleAnalyze} isLoading={isLoading} />
-              </div>
-            </>
-          ) : (
-            <ResultsDashboard
-              data={analysisData}
-              onReset={handleReset}
-              onExport={handleExport}
-            />
-          )}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-slate-50/50">
+        <div className="bg-primary rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl shadow-primary/20">
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
+          <div className="relative z-10 max-w-3xl mx-auto">
+            <GraduationCap className="w-16 h-16 text-accent mx-auto mb-8" />
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6">Ready to certify your English?</h2>
+            <p className="text-white/70 text-lg md:text-xl mb-12 font-medium">
+              Join thousands of students using LingoScore to prepare for CEFR, IELTS, and TOEFL exams with real-time AI feedback.
+            </p>
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-3 bg-accent text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-white hover:text-primary transition-all shadow-xl shadow-accent/20 hover:scale-105 active:scale-95"
+            >
+              Get Started Now
+              <ArrowRight className="w-6 h-6" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

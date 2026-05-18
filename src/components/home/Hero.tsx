@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Sparkles, BarChart3, BookOpen, GraduationCap } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -30,15 +32,21 @@ const Hero = () => {
               nuanced feedback on your writing, helping you bridge the gap to C2 proficiency.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-              <a
-                href="#assess"
-                className="bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-secondary transition-all shadow-xl shadow-primary/20 hover:scale-105 active:scale-95"
+              <motion.a
+                href="/login"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-secondary transition-all shadow-xl shadow-primary/20"
               >
                 Start Free Assessment
-              </a>
-              <button className="bg-white text-primary border-2 border-gray-100 px-8 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all hover:scale-105 active:scale-95">
+              </motion.a>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-primary border-2 border-gray-100 px-8 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all"
+              >
                 View Sample Report
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         </div>
@@ -72,16 +80,17 @@ const Hero = () => {
               iconColor: "text-sky-600"
             }
           ].map((feature, idx) => (
-            <div
+            <motion.div
               key={idx}
-              className="p-8 bg-white/50 backdrop-blur-sm rounded-3xl border border-white flex flex-col items-start shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 group"
+              whileHover={{ y: -5 }}
+              className="p-8 bg-white/50 backdrop-blur-sm rounded-3xl border border-white flex flex-col items-start shadow-sm hover:shadow-xl transition-all group"
             >
               <div className={`w-14 h-14 ${feature.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                 <feature.icon className={`w-7 h-7 ${feature.iconColor}`} />
               </div>
               <h3 className="text-xl font-bold text-primary mb-3">{feature.title}</h3>
               <p className="text-gray-600 leading-relaxed">{feature.desc}</p>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>
