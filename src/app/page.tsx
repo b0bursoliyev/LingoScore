@@ -99,6 +99,76 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Methodology / How it works */}
+      <div className="bg-white py-32 border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="bg-primary h-48 rounded-3xl p-6 flex flex-col justify-end text-white">
+                    <span className="text-4xl font-black">42</span>
+                    <span className="text-xs font-bold uppercase opacity-60">Grammar Rules Checked</span>
+                  </div>
+                  <div className="bg-accent h-64 rounded-3xl p-6 flex flex-col justify-end text-white">
+                    <span className="text-4xl font-black">1.2M</span>
+                    <span className="text-xs font-bold uppercase opacity-60">Dataset Vocabularies</span>
+                  </div>
+                </div>
+                <div className="space-y-4 pt-8">
+                  <div className="bg-secondary h-64 rounded-3xl p-6 flex flex-col justify-end text-white">
+                    <span className="text-4xl font-black">0.8s</span>
+                    <span className="text-xs font-bold uppercase opacity-60">Latency per Query</span>
+                  </div>
+                  <div className="bg-blue-100 h-48 rounded-3xl p-6 flex flex-col justify-end text-primary">
+                    <span className="text-4xl font-black">A1-C2</span>
+                    <span className="text-xs font-bold uppercase opacity-60">CEFR Range Covered</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <h2 className="text-4xl lg:text-5xl font-black text-primary mb-8">The Science Behind LingoScore</h2>
+              <p className="text-lg text-slate-500 font-medium leading-relaxed mb-10">
+                We combine traditional linguistic analysis with state-of-the-art transformer models to assess
+                not just correctness, but the nuance and complexity of your English.
+              </p>
+              <ul className="space-y-6">
+                {[
+                  "Semantic density and lexical diversity metrics",
+                  "Syntactic complexity via dependency parsing",
+                  "Phonetic accuracy using neural VTT engines",
+                  "Contextual coherence evaluation"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-4 text-primary font-bold">
+                    <div className="w-6 h-6 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center flex-shrink-0">
+                      <ShieldCheck className="w-4 h-4" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-primary py-20 text-white/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-10">
+          <div className="flex items-center gap-3 grayscale brightness-200 opacity-50">
+            <div className="w-8 h-8 bg-white text-primary rounded-lg flex items-center justify-center font-black">L</div>
+            <span className="text-lg font-black tracking-tighter">LingoScore</span>
+          </div>
+          <div className="flex gap-8 text-sm font-bold">
+            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-white transition-colors">Contact Support</a>
+          </div>
+          <p className="text-xs font-medium">© 2026 LingoScore AI. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }

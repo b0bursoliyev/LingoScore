@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 
 interface AnalysisData {
   id: string;
@@ -79,15 +79,27 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ data, onReset }) =>
     noExport.forEach(el => el.style.display = 'none');
 
     try {
-      const canvas = await html2canvas(element, { scale: 2 });
-      const imgData = canvas.toDataURL('image/png');
+      const dataUrl = await toPng(element, {
+        quality: 1.0,
+        pixelRatio: 2,
+        backgroundColor: '#f8fafc' // Matches background
+      });
+
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const width = 210;
-      const height = (canvas.height * width) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-      pdf.save(`LingoScore_Report_${data.id}.pdf`);
+      const img = new Image();
+      img.src = dataUrl;
+
+      await new Promise((resolve) => {
+        img.onload = () => {
+          const width = 210;
+          const height = (img.height * width) / img.width;
+          pdf.addImage(dataUrl, 'PNG', 0, 0, width, height);
+          pdf.save(`LingoScore_Report_${data.id}.pdf`);
+          resolve(null);
+        };
+      });
     } catch (e) {
-      console.error(e);
+      console.error('Export failed:', e);
     } finally {
       noExport.forEach(el => el.style.display = '');
     }

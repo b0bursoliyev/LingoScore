@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTestStore } from '@/store/useTestStore';
 import { PenTool, Loader2 } from 'lucide-react';
+import AssessmentContainer from '@/components/assess/AssessmentContainer';
 
 export default function WritingTest() {
   const [text, setText] = useState('');
@@ -25,14 +26,22 @@ export default function WritingTest() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
-        <h2 className="text-2xl font-black text-primary mb-6 flex items-center gap-3">
-          <PenTool className="w-8 h-8 text-secondary" />
-          Writing Assessment
-        </h2>
+    <AssessmentContainer
+      title="Writing Assessment"
+      icon={<PenTool className="w-6 h-6" />}
+      progress={wordCount >= 50 ? 100 : (wordCount / 50) * 100}
+    >
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-slate-100">
+          <h2 className="text-3xl font-black text-primary mb-8 flex items-center gap-4">
+            <PenTool className="w-10 h-10 text-secondary" />
+            Essay Writing
+          </h2>
 
-        <p className="mb-6 font-bold text-slate-600">Prompt: Discuss the advantages and disadvantages of remote work in the modern era.</p>
+          <div className="bg-blue-50 p-6 rounded-2xl mb-8 border border-blue-100">
+            <p className="font-bold text-primary/80 uppercase tracking-widest text-xs mb-2">Essay Prompt</p>
+            <p className="font-bold text-primary text-xl leading-relaxed">Discuss the advantages and disadvantages of remote work in the modern era.</p>
+          </div>
 
         <div className="relative">
           <textarea
@@ -46,14 +55,15 @@ export default function WritingTest() {
           </div>
         </div>
 
-        <button
-          onClick={handleSubmit}
-          disabled={wordCount < 50 || isLoading}
-          className="mt-10 w-full bg-primary text-white py-5 rounded-2xl font-black text-xl hover:bg-secondary transition-all disabled:opacity-50 flex items-center justify-center gap-3"
-        >
-          {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Submit Writing Assessment"}
-        </button>
+          <button
+            onClick={handleSubmit}
+            disabled={wordCount < 50 || isLoading}
+            className="mt-10 w-full bg-primary text-white py-6 rounded-[1.5rem] font-black text-2xl hover:bg-secondary transition-all disabled:opacity-50 flex items-center justify-center gap-4 shadow-xl shadow-primary/20"
+          >
+            {isLoading ? <Loader2 className="w-8 h-8 animate-spin" /> : "Submit Writing Assessment"}
+          </button>
+        </div>
       </div>
-    </div>
+    </AssessmentContainer>
   );
 }
