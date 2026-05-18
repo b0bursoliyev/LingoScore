@@ -1,0 +1,47 @@
+
+> lingoscore_temp@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+✓ Ready in 2.1s
+
+⨯ ReferenceError: User is not defined
+    at Home (src/app/page.tsx:89:23)
+  87 |               { icon: Zap, title: "Real-time Feedback", desc: "Instant evaluation as soon ...
+  88 |               { icon: Layers, title: "CEFR Mapping", desc: "Direct correlation to A1-C2 le...
+> 89 |               { icon: User, title: "Persistent Profiles", desc: "Track your progress over ...
+     |                       ^
+  90 |             ].map((f, i) => (
+  91 |               <div key={i} className="bg-white p-10 rounded-[2.5rem] border border-slate-1...
+  92 |                 <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify... {
+  digest: '3772310577'
+}
+ GET / 500 in 1790ms (next.js: 923ms, application-code: 867ms)
+[browser] Uncaught ReferenceError: User is not defined
+    at Home (src/app/page.tsx:89:23)
+  87 |               { icon: Zap, title: "Real-time Feedback", desc: "Instant evaluation as soon ...
+  88 |               { icon: Layers, title: "CEFR Mapping", desc: "Direct correlation to A1-C2 le...
+> 89 |               { icon: User, title: "Persistent Profiles", desc: "Track your progress over ...
+     |                       ^
+  90 |             ].map((f, i) => (
+  91 |               <div key={i} className="bg-white p-10 rounded-[2.5rem] border border-slate-1...
+  92 |                 <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify...
+ GET / 200 in 591ms (next.js: 212ms, application-code: 380ms)
+ GET /auth 200 in 2.4s (next.js: 2.3s, application-code: 39ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /dashboard 200 in 1252ms (next.js: 1181ms, application-code: 71ms)
+ GET /assess/reading 200 in 697ms (next.js: 654ms, application-code: 44ms)
+ GET /dashboard 200 in 30ms (next.js: 5ms, application-code: 25ms)
+ GET /assess/writing 200 in 876ms (next.js: 833ms, application-code: 42ms)
+Error: Turbopack build failed with 1 errors:
+./src/app
+Error: Next.js inferred your workspace root, but it may not be correct.
+    We couldn't find the Next.js package (next/package.json) from the project directory: /app/src/app
+     To fix this, set turbopack.root in your Next.js config, or ensure the Next.js package is resolvable from this directory.
+    Note: For security and performance reasons, files outside of the project directory will not be compiled.
+    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+
+    at ignore-listed frames
+[?25h

@@ -2,35 +2,31 @@ import { describe, it, expect } from 'vitest';
 import { POST } from '../route';
 
 describe('POST /api/analyze', () => {
-  it('returns 400 if text is less than 50 words', async () => {
+  it('returns 400 if skills are missing', async () => {
     const request = new Request('http://localhost:3000/api/analyze', {
       method: 'POST',
-      body: JSON.stringify({ text: 'Too short' }),
+      body: JSON.stringify({ }),
     });
 
     const response = await POST(request);
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.error).toBe('Text must be at least 50 words.');
+    expect(data.error).toBe('Missing skill scores.');
   });
 
-  it('returns CEFR exam analysis for valid text', async () => {
-    const longText = 'This is a long text that should definitely be more than fifty words. '.repeat(10);
+  it('aggregates skills and returns a report', async () => {
+    const skills = { reading: 80, listening: 80, writing: 80, speaking: 80 };
     const request = new Request('http://localhost:3000/api/analyze', {
       method: 'POST',
-      body: JSON.stringify({ text: longText }),
+      body: JSON.stringify({ skills }),
     });
 
     const response = await POST(request);
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toHaveProperty('overallLevel');
-    expect(data.metrics).toHaveProperty('cohesion');
-    expect(data.metrics).toHaveProperty('grammar');
-    expect(data.metrics).toHaveProperty('vocabulary');
-    expect(data.metrics).toHaveProperty('taskResponse');
-    expect(data.wordCount).toBeGreaterThanOrEqual(50);
+    expect(data.overallLevel).toBe('C1');
+    expect(data.overallScore).toBe(80);
   });
 });

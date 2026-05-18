@@ -2,106 +2,38 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const { text } = await request.json();
+    const { skills, user } = await request.json();
 
-    const wordCount = text?.trim().split(/\s+/).filter(Boolean).length || 0;
-
-    if (wordCount < 50) {
-      return NextResponse.json(
-        { error: 'Text must be at least 50 words.' },
-        { status: 400 }
-      );
+    if (!skills) {
+      return NextResponse.json({ error: 'Missing skill scores.' }, { status: 400 });
     }
 
-    // --- AI ANALYSIS SETUP ---
-    // To use Google Gemini API, uncomment the following block and add GOOGLE_API_KEY to your .env
-    /*
-    const { GoogleGenerativeAI } = await import("@google/generative-ai");
-    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // Advanced mock logic for overall CEFR mapping
+    const avgScore = (skills.reading + skills.listening + skills.writing + skills.speaking) / 4;
 
-    const prompt = `Analyze this English writing sample for CEFR level (A1-C2).
-    Provide scores (0-100) for Reading, Listening, Writing, and Speaking based on the text complexity and linguistic indicators.
-    Identify grammar errors and suggest improvements. Return JSON format.
-    Text: ${text}`;
-
-    // const result = await model.generateContent(prompt);
-    // const response = await result.response;
-    // const analysis = JSON.parse(response.text());
-    */
-
-    // Mock logic for analysis
-    const avgWordLength = text.length / wordCount;
-
-    // Simulate CEFR level based on complexity
     let level = 'A1';
-    let score = 20;
+    if (avgScore >= 90) level = 'C2';
+    else if (avgScore >= 80) level = 'C1';
+    else if (avgScore >= 65) level = 'B2';
+    else if (avgScore >= 50) level = 'B1';
+    else if (avgScore >= 35) level = 'A2';
 
-    if (wordCount > 300 && avgWordLength > 6) {
-      level = 'C2';
-      score = 95;
-    } else if (wordCount > 250 && avgWordLength > 5.5) {
-      level = 'C1';
-      score = 85;
-    } else if (wordCount > 150 && avgWordLength > 5) {
-      level = 'B2';
-      score = 70;
-    } else if (wordCount > 100 && avgWordLength > 4.5) {
-      level = 'B1';
-      score = 55;
-    } else if (wordCount > 50 && avgWordLength > 4) {
-      level = 'A2';
-      score = 40;
-    }
-
-    const strengths = [
-      'Good use of basic sentence structures.',
-      'Clear expression of ideas.',
-      wordCount > 100 ? 'Adequate length for the topic.' : 'Concise writing style.'
-    ];
-
-    const improvements = [
-      'Try to use more complex vocabulary.',
-      'Work on connecting sentences with transition words.',
-      'Check for minor grammatical inconsistencies.'
-    ];
-
-    const grammarErrors = [
-      { original: 'dont', suggestion: "don't", type: 'Spelling' },
-      { original: 'They is', suggestion: 'They are', type: 'Grammar' }
-    ];
-
-    // Response structure matching user request for all 4 ways
-    const analysis = {
+    const result = {
+      id: Math.random().toString(36).substring(7),
+      date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      skills: {
+        reading: skills.reading,
+        listening: skills.listening,
+        writing: skills.writing,
+        speaking: skills.speaking,
+      },
       overallLevel: level,
-      overallScore: score,
-      metrics: {
-        reading: Math.min(100, score + 5),
-        listening: Math.max(0, score - 5),
-        writing: score,
-        speaking: Math.min(100, score + 2),
-      },
-      vocabulary: {
-        variety: wordCount > 150 ? 'High' : 'Moderate',
-        complexity: avgWordLength > 5.5 ? 'Advanced' : 'Standard',
-      },
-      grammar: {
-        errorCount: grammarErrors.length,
-        errors: grammarErrors,
-      },
-      feedback: {
-        strengths,
-        improvements,
-      },
-      wordCount,
+      overallScore: Math.round(avgScore),
     };
 
-    return NextResponse.json(analysis);
+    return NextResponse.json(result);
   } catch (error) {
-    console.error('Analysis error:', error);
-    return NextResponse.json(
-      { error: 'Failed to analyze text.' },
-      { status: 500 }
-    );
+    console.error('Final analysis error:', error);
+    return NextResponse.json({ error: 'Failed to generate final report.' }, { status: 500 });
   }
 }
